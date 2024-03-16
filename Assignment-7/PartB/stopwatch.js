@@ -6,10 +6,15 @@ async function startTimer() {
     if (startTime === null) {
         startTime = Date.now();
     }
-    while (true) {
+    intervalId = setInterval(() => {
         updateTimer();
-        await new Promise(resolve => setTimeout(resolve, 1000));
+    }, 1000);
+    while (true) {
+        await new Promise(resolve => {
+            setTimeout(resolve, 1000) 
+        });
     }
+    
 }
 
 function stopTimer() {
@@ -66,15 +71,19 @@ resetBtn.addEventListener('click', () => {
     stopBtn.disabled = true;
 });
 
-const datePicker = document.getElementById('datePicker');
-const currentDate = new Date();
+document.getElementById('datePicker').valueAsDate = new Date();
 // const currentDate = new Date();
-const userOffset = currentDate.getTimezoneOffset() * 60000; // Offset in milliseconds
-const adjustedDate = new Date(currentDate.getTime() - userOffset);
-datePicker.valueAsDate = adjustedDate;
-// datePicker.valueAsDate = currentDate;
-datePicker.min = '2000-01-01'; // : Set a minimum date
-datePicker.max = '2050-12-31'; // : Set a maximum date
-datePicker.disabled = false; // Enable the date picker
+// // const currentDate = new Date();
+// const userOffset = currentDate.getTimezoneOffset() * 60000; // Offset in milliseconds
+// const adjustedDate = new Date(currentDate.getTime() - userOffset);
+// datePicker.valueAsDate = adjustedDate;
+// // datePicker.valueAsDate = currentDate;
+// datePicker.min = '2000-01-01'; // : Set a minimum date
+// datePicker.max = '2050-12-31'; // : Set a maximum date
+// datePicker.disabled = false; // Enable the date picker
+
+datePicker.addEventListener('keydown',(e) => {
+    e.preventDefault();
+})
 
 updateTimer(); // Update timer display initially
