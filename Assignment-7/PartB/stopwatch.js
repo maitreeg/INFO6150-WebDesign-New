@@ -1,7 +1,7 @@
 let startTime = null;
 let elapsedTime = 0;
 let intervalId = null;
-
+// Async, Await, Promises, Set Interval, and Clear Interval 
 async function startTimer() {
     if (startTime === null) {
         startTime = Date.now();
@@ -68,9 +68,13 @@ resetBtn.addEventListener('click', () => {
 
 const datePicker = document.getElementById('datePicker');
 const currentDate = new Date();
-datePicker.valueAsDate = currentDate;
-datePicker.min = '2000-01-01'; // Example: Set a minimum date
-datePicker.max = '2050-12-31'; // Example: Set a maximum date
+// const currentDate = new Date();
+const userOffset = currentDate.getTimezoneOffset() * 60000; // Offset in milliseconds
+const adjustedDate = new Date(currentDate.getTime() - userOffset);
+datePicker.valueAsDate = adjustedDate;
+// datePicker.valueAsDate = currentDate;
+datePicker.min = '2000-01-01'; // : Set a minimum date
+datePicker.max = '2050-12-31'; // : Set a maximum date
 datePicker.disabled = false; // Enable the date picker
 
 updateTimer(); // Update timer display initially

@@ -49,6 +49,9 @@ const validateFields = () => {
         } else if (value === 'Infinity' || value === '-Infinity') {
             showError(field, 'Value cannot be infinite');
             valid = false;
+        }else if (!isFinite(parseFloat(value))) {
+            showError(field, fieldName + 'Value cannot be infinite');
+            valid = false;
         }
     });
 

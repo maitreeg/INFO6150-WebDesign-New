@@ -159,28 +159,22 @@ $(document).ready(function(){
         var fieldName = field.attr('name');
         var value = field.val();
         var error = false;
-        if(!isValidEmail(email)){
-            showError($(this), 'Please enter a valid Northeastern email');
-        } 
-        // if( hasSpecialCharacters(uname)){
-        //     showError(field, fieldName +' cannot contain special characters');
-        // }
-        if(value.trim() === ''){
+        if(value === '' || value == null || email == null){
             showError(field, fieldName + ' cannot be empty');
             error = true;
+        }
+        else if(!isValidEmail(email)){
+            showError($(this), 'Please enter a valid Northeastern email');
         } 
-        // else if(!isValidLength(value, 6, 20)){
-        //     showError(field, fieldName + ' must be between 6 and 20 characters');
+        // else if(value.trim() === ''){
+        //     showError(field, fieldName + ' cannot be empty');
         //     error = true;
         // } 
         else {
             hideError(field);
+            //$('#login-btn').prop('disabled', false);
         }
-        // if(!error && $('#email').hasClass('error') === false){
-        //     $('#login-btn').prop('disabled', false);
-        // } else {
-        //     $('#login-btn').prop('disabled', true);
-        // }
+        toggleLoginButton();
     });
 
     function toggleLoginButton() {
@@ -189,37 +183,21 @@ $(document).ready(function(){
         var emailField = $('#email');
         var emailError = emailField.hasClass('error');
 
-        if (!hasErrors && !emailError) {
+        var emailValue = emailField.val().trim();
+        var isEmailEmpty = emailValue === '';
+
+        if (!hasErrors && !emailError && !isEmailEmpty) {
             $('#login-btn').prop('disabled', false);
         } else {
             $('#login-btn').prop('disabled', true);
         }
     }
 
-    // Login form submission
-    // $('#login-form').submit(function(e){
-    //     console.log('Form submitted');
-    //     // Prevent form submission if there are validation errors
-    //     if($('.error-message:visible').length > 0){
-    //         e.preventDefault();
-    //     }
-    // });
-
-    // $('#login-form').submit(function(event) {
-    //     event.preventDefault(); // Prevent the default form submission
-    //     // Redirect to calculator.html
-    //     window.location.href = 'calculator.html';
-    // });
 
     $('#login-form').submit(function(e) {
  
-            e.preventDefault();
-            // Redirect to calculator.html
-            //window.location.href = 'calculator.html';
-            // Redirect to calculator.html with username as query parameter
-window.location.href = 'calculator.html?username=' + encodeURIComponent($('#userName').val());
-
-        
+        e.preventDefault();
+        window.location.href = 'calculator.html?username=' + encodeURIComponent($('#userName').val());
     });
 
 });
