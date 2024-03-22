@@ -1,30 +1,40 @@
 
-# Assignment 6
+# Assignment 8
 
-- Author: Aditya Mulik
-- NUID: 002127694
-- Email: mulik.a@northeastern.edu
+- Author: Maitree Gawande
+- NUID: 002727522
+- Email: gawande.m@northeastern.edu
 
-## Topic: Assignment 6 (Node, Express & MongoDB)
-Assignment 6 based on user authentication, CRUD operations involving storing password to MongoDB using encryption.
+## Topic: Assignment 8 (Node, Express & MongoDB)
+Assignment 8 based on user authentication, CRUD operations involving storing password to MongoDB using encryption.
 
 ## API Endpoints:
 
-1. POST - /user/create \
-Desc: To create a new user and store it to the database with salt/hashed password using brcypt and validations for password creation. Validation errors for password. \
-Parameters: a. email 
-            b. password + confirm password 
+User Creation
+Endpoint: POST: /user/create
+Function: Creates a new user with full name, email, and password. Implement validations for email, full name, and enforce a strong password rule.
 
-2. POST - /user/edit \
-Desc: To update user's email or password on logging in. Validations for correct username or password. \
-Parameters: a. new_email
-            b. new_password + confirm new_password
+Update User Details
+Endpoint: PUT: /user/edit
+Function: Allows updating the user's full name and password. Email cannot be updated. Validate full name and password, and ensure the user exists in the database before updating.
 
-3. DELETE - /user/delete \
-Desc: Delete the user by using Delete request.
 
-4. GET - /user/getAll \
-Desc: Get all the users email addresses and passwords (encrypted) from the database.
+Delete User
+Endpoint: DELETE: /user/delete
+Function: Deletes a user by their email.
+
+
+Retrieve All Users
+Endpoint: GET: /user/getAll
+Function: Retrieves all users' full names, email addresses, and passwords stored in the
+database.
+
+
+Upload Image
+Endpoint: POST: /user/uploadImage
+Function: Allows users to upload an image file to the server. It only accepts JPEG, PNG, and GIF formats. Use multer for file handling. Store the uploaded image in an "images" folder and save the path in the database.
+Response: Confirmation of upload with the file path.
+
 
 ## Technology & Softwares:
 
@@ -36,7 +46,7 @@ Commonly used packages:
 1. bcrypt
 2. mongoose
 3. express
-4. nodemon
+
 
 ## Installation:
 
