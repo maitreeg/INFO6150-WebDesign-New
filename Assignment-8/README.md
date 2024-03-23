@@ -46,6 +46,7 @@ Commonly used packages:
 1. bcrypt
 2. mongoose
 3. express
+4. multer
 
 
 ## Installation:
