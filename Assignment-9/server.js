@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
-const db = require("../Assignment-9/api/config/mongoose");
-const userRoutes = require("../Assignment-9/api/routes/routes");
+const path = require("path");
+const db = require("./config/mongoose");
+const userRoutes = require("./routes/routes");
 const cors = require("cors"); // Import cors module
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
