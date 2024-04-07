@@ -17,6 +17,11 @@ const userSchema = new mongoose.Schema(
     image: { 
       type: String 
     },
+    type: { 
+      type: String, 
+      required: true, 
+      enum: ["employee", "admin"] 
+    },
   },
   { collection: "users" }
 );

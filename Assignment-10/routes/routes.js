@@ -4,11 +4,12 @@ const bcrypt = require("bcryptjs");
 const multer = require("multer");
 const User = require("../model/user"); 
 const Company = require("../model/company");
+const Job = require('../model/job');
 const path = require("path");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, "/Users/mg/Desktop/WebDesignNew/Assignment-9/images");
+      cb(null, "/Users/mg/Desktop/WebDesignNew/Assignment-10/images");
     },
     filename: function (req, file, cb) {
       const ext = path.extname(file.originalname);
@@ -21,7 +22,7 @@ const storageCompany = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(
       null,
-      "/Users/mg/Desktop/WebDesignNew/Assignment-9/company-images"
+      "/Users/mg/Desktop/WebDesignNew/Assignment-10/company-images"
     ); // Path to store images
   },
   filename: function (req, file, cb) {
@@ -32,7 +33,7 @@ const storageCompany = multer.diskStorage({
       "-company" +
       path.extname(file.originalname);
     const fullPath = path.join(
-      "/Users/mg/Desktop/WebDesignNew/Assignment-9/company-images",
+      "/Users/mg/Desktop/WebDesignNew/Assignment-10/company-images",
       uniqueSuffix
     ); // Full path including filename
     cb(null, uniqueSuffix); // Unique filename with 'company' appended
@@ -54,12 +55,12 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 router.post("/create", async (req, res) => {
     console.log(req.body);
     try {
-        const { fullName, email, password } = req.body;
+        const { fullName, email, password, type } = req.body;
     
-        if (!fullName || !email || !password) {
+        if (!fullName || !email || !password || !type) {
           return res
             .status(400)
-            .json({ message: "Please provide fullName, email, and password" });
+            .json({ message: "Please provide fullName, email, password and type" });
         }
     
         if (/\d/.test(fullName)) {
@@ -83,6 +84,12 @@ router.post("/create", async (req, res) => {
               "Password must have at least 8 characters with one uppercase letter, one lowercase letter, one number, and one special character",
           });
         }
+
+        if (type !== "employee" && type !== "admin") {
+          return res.status(400).json({
+            message: 'Type must be "employee" or "admin"',
+          });
+        }
     
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -95,6 +102,7 @@ router.post("/create", async (req, res) => {
           fullName: fullName,
           email: email,
           password: hashedPassword,
+          type: type,
         });
     
         await newUser.save();
@@ -106,12 +114,56 @@ router.post("/create", async (req, res) => {
       }
 });
 
+router.post("/create/job", async (req, res) => {
+  console.log(req.body);
+  try {
+      const { companyName, jobTitle, description, salary } = req.body;
+  
+      if (!companyName || !jobTitle || !description || !salary) {
+        return res
+          .status(400)
+          .json({ message: "Please provide companyName, jobTitle, description, and salary" });
+      }
+  
+      // Save job details to database
+      // Example: const newJob = await Job.create({ companyName, jobTitle, description, salary });
+      const newJob = new Job({
+        companyName: companyName,
+        jobTitle: jobTitle,
+        description: description,
+        salary: salary,
+      });
+  
+      await newJob.save();
+      res.status(201).json({ message: "Job created successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.get("/jobs/get", async (req, res) => {
+  try {
+    const jobs = await Job.find();
+
+    const { page = 1, perPage = 3 } = req.query;
+    const startIndex = (page - 1) * perPage;
+    const endIndex = page * perPage;
+
+    const paginatedJobs = jobs.slice(startIndex, endIndex);
+    const totalPages = Math.ceil(jobs.length / perPage);
+
+    res.status(200).json({ jobs: paginatedJobs, totalPages });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
 router.get("/getAllUsers", async(req, res) => {
     try{
-        const users = await User.find(
-            {},
-            { fullName: 1, email: 1, password: 1, _id: 0 }
-          );
+      const users = await User.find({}, { password: 0 });
           res.status(200).json(users);
     }catch(error){
         console.error(error);

@@ -12,6 +12,8 @@ function CompanyCards() {
           "http://localhost:8000/user/getAllCompanies"
         );
         setCompanies(response.data);
+        console.log(response)
+        console.log(response.data)
       } catch (error) {
         console.error("Error fetching company data:", error);
       }

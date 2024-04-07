@@ -14,29 +14,23 @@ import JobListings from "./components/JobListings";
 import Navbar from "./components/Navbar";
 import CompanyList from "./components/companies";
 import Contact from "./components/contact";
+import AdminPage from "./components/AdminPage";
+import AddJobForm from "./components/AddJobForm";
+import JobsPage from "./components/JobsPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginPage />} />
+        <Route path="/admin" element={<ProtectedRoute element={<AdminPage />} />} />
+        <Route path="/admin/add-job" element={<ProtectedRoute element={<AddJobForm />} />} />
         <Route path="/about" element={<ProtectedRoute element={<About />} />} />
-        <Route
-          path="/home/*"
-          element={<ProtectedRoute element={<HomePage />} />}
-        />
-        <Route
-          path="/joblistings"
-          element={<ProtectedRoute element={<JobListings />} />}
-        />
-        <Route
-          path="/contact"
-          element={<ProtectedRoute element={<Contact />} />}
-        />
-        <Route
-          path="/companies"
-          element={<ProtectedRoute element={<CompanyList />} />}
-        />
+        <Route path="/home/*" element={<ProtectedRoute element={<HomePage />} />}/>
+        <Route path="/joblistings" element={<ProtectedRoute element={<JobListings />} />}/>
+        <Route path="/contact" element={<ProtectedRoute element={<Contact />} />}/>
+        <Route path="/companies" element={<ProtectedRoute element={<CompanyList />} />}/>
+        <Route path="/jobsPage" element={<ProtectedRoute element={<JobsPage />} />}/>
       </Routes>
     </BrowserRouter>
   );
